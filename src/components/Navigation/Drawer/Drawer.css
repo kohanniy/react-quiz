@@ -1,0 +1,43 @@
+.drawer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 80%;
+  max-width: 300px;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  background: #fff;
+  transform: translateX(0);
+  transition: transform 0.5s ease-in-out;
+  z-index: 90;
+}
+
+.drawer_close {
+  transform: translateX(-300px);
+}
+
+.drawer__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.drawer__item {
+  margin-bottom: 15px;
+}
+
+.drawer__link {
+  color: #363f54;
+  font-size: 30px;
+  text-decoration: none;
+  background: #fff;
+  position: relative;
+  padding: 0 20px 10px 20px;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.drawer__link:hover,
+.drawer__link_active {
+  opacity: 0.7;
+}

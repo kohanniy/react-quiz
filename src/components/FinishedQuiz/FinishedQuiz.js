@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './FinishedQuiz.css';
 import Button from '../UI/Button/Button';
 
@@ -49,12 +50,14 @@ function FinishedQuiz(props) {
         >
           Повторить
         </Button>
-        <Button
-          type='button'
-          state='success'
-        >
-          Перейти в список тестов
-        </Button>
+        <Link to='/'>
+          <Button
+            type='button'
+            state='success'
+          >
+            Перейти в список тестов
+          </Button>
+        </Link>
       </div>
     </div>
   );
