@@ -3,8 +3,6 @@ import './Drawer.css';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import { InternalPagesLinks } from '../../../utils/constants';
 
-const links = [1, 2, 3];
-
 function Drawer(props) {
   const {
     isOpen,

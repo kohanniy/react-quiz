@@ -27,6 +27,7 @@ button:active {
 .button:disabled {
   background: #ccc;
   cursor: not-allowed;
+  color: #000;
 }
 
 .button_state_error {
