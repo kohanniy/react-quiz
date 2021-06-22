@@ -1,4 +1,5 @@
 import './Input.css';
+import { createHtmlFor } from '../../../utils/utils';
 
 const isInvalid = ({ valid, touched, shouldValidate }) => {
   return !valid && shouldValidate && touched;
@@ -17,7 +18,7 @@ function Input(props) {
   } = props;
 
   const inputType = type || 'text';
-  const htmlFor = `${inputType}-${Math.random()}`
+  const htmlFor = createHtmlFor(inputType);
   let inputClasses = 'input';
 
   if (isInvalid({ valid, touched, shouldValidate })) inputClasses += ' input_invalid'

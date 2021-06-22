@@ -3,3 +3,5 @@ export function validateEmail(email) {
     
     return re.test(String(email).toLowerCase());
 }
+
+export const createHtmlFor = (label) => `${label}-${Math.random()}`

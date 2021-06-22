@@ -1,0 +1,25 @@
+.quiz-creator {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  width: 100%;
+  padding-top: 50px;
+  background: linear-gradient(270deg, #f0613c 0%, #f0783c 100%);
+}
+
+.quiz-creator__wrapper {
+  width: 100%;
+  max-width: 600px;
+  padding: 0 20px;
+}
+
+.quiz-creator__title {
+  text-align: center;
+}
+
+.quiz-creator__from {
+  background: #eee;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
