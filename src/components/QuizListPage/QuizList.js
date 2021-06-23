@@ -1,42 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import './QuizList.css';
-import axios from '../../axios/axios-quiz';
+import { fetchQuizzes } from '../../store/actions/quizzes';
 import Loader from '../UI/Loader/Loader';
 
-function QuizList(props) {
-  const [ quizList, setQuizList ] = useState([]);
-  const [ isLoading, setIsLoading ] = useState(true);
+function QuizList() {
+  const quizList = useSelector((state) => state.quizzes.quizList);
+  const isLoading = useSelector((state) => state.quizzes.isLoading);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const getQuizzes = async () => {
-      try {
-        const response = await axios.get('/quizes.json');
-
-        const quizzes = [];
-
-        Object.keys(response.data).forEach((key, index) => {
-          quizzes.push({
-            id: key,
-            name: `Тест №${index + 1}`,
-          })
-        });
-        setQuizList(quizzes);
-        setIsLoading(false);
-      } catch (err) {
-        console.log(err);
-        setIsLoading(false);
-      }
-    }
-    getQuizzes();
-  }, []);
+    dispatch(fetchQuizzes());
+  }, [dispatch]);
 
   return (
     <div className='quizzes'>
       <div>
         <h1 className='quizzes__title'>Список тестов</h1>
         {
-          isLoading 
+          isLoading
             ? <Loader />
             : <ul className='quizzes__list'>
                 {
