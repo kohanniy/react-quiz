@@ -9,6 +9,7 @@ import {
   validate,
   validateForm,
 } from '../../form/formFramework';
+import axios from '../../axios/axios-quiz';
 
 function QuizCreator(props) {
   const [ quiz, setQuiz ] = React.useState([]);
@@ -46,9 +47,18 @@ function QuizCreator(props) {
     setInputs(createFormControlsForQuiz());
   }
 
-  function handleCreateQuizBtnClick(evt) {
+  async function handleCreateQuizBtnClick(evt) {
     evt.preventDefault();
-    console.log(quiz);
+
+    try {
+      await axios.post('/quizes.json', quiz);
+      setQuiz([]);
+      setIsFormValid(false);
+      setRightAnswerId(1);
+      setInputs(createFormControlsForQuiz());
+    } catch (err) {
+      console.log(err);
+    }    
   }
 
   function handleInputChange(evt, inputName) {

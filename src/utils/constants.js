@@ -15,9 +15,3 @@ export const InternalPagesLinks = [
     exact: false,
   },
 ];
-
-export const listOfQuizzes = [
-  1,
-  2,
-  3,
-]
