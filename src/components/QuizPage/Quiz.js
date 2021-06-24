@@ -1,76 +1,33 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import './Quiz.css';
 import ActiveQuiz from '../ActiveQuiz/ActiveQuiz';
 import FinishedQuiz from '../FinishedQuiz/FinishedQuiz';
 import Loader from '../UI/Loader/Loader';
-import axios from '../../axios/axios-quiz';
+import { 
+  fetchQuizById,
+  quizAnswerClick,
+  retryQuiz,
+} from '../../store/actions/quizzes';
 
 function Quiz(props) {
-  const [ quiz, setQuiz ] = React.useState([]);
-  const [ isLoading, setIsLoading ] = React.useState(true);
+  const quiz = useSelector((state) => state.quizzes.quiz);
+  const isLoading = useSelector((state) => state.quizzes.isLoading);
+  const activeQuestion = useSelector((state) => state.quizzes.activeQuestion);
+  const answerState = useSelector((state) => state.quizzes.answerState);
+  const results = useSelector((state) => state.quizzes.results);
+  const isQuizFinished = useSelector((state) => state.quizzes.isQuizFinished);
 
-  const [ activeQuestion, setActiveQuestion ] = React.useState(0);
-  const [ answerState, setAnswerState ] = React.useState(null);
-  const [ isQuizFinished, setIsQuizFinished ] = React.useState(false);
-  const [ results, setResults ] = React.useState({});
-
-  const isFinished = () => activeQuestion + 1 === quiz.length
-
-  function handleAnswerClick(answerId) {
-    if (answerState) {
-      const key = Object.keys(answerState)[0];
-      if (key === 'success') {
-        return;
-      }
-    }
-
-    const question = quiz[activeQuestion];
-    const quizResults = results;
-
-    if (question.rightAnswerId === answerId) {
-      if (!results[question.id]) quizResults[question.id] = 'success';
-      
-      setAnswerState({
-        [answerId]: 'success',
-      });
-      const timeout = setTimeout(() => {
-        if (isFinished()) {
-          setIsQuizFinished(true);
-          setResults(quizResults);
-        } else {
-          setActiveQuestion(activeQuestion + 1);
-          setAnswerState(null);
-        }
-        clearTimeout(timeout);
-      }, 1000);
-      
-    } else {
-      setAnswerState({ [answerId]: 'error' });
-      quizResults[question.id] = 'error';
-    }
-  }
+  const dispatch = useDispatch();
 
   function handleRetryButtonClick() {
-    setActiveQuestion(0);
-    setAnswerState(null);
-    setIsQuizFinished(false);
-    setResults({});
+    dispatch(retryQuiz());
   }
 
   React.useEffect(() => {
-    (
-      async () => {
-        try {
-          const response = await axios.get(`/quizes/${props.match.params.id}.json`);
-          setQuiz(response.data);
-          setIsLoading(false);
-        } catch (err) {
-          console.log(err);
-          setIsLoading(false);
-        }
-      }
-    )()
-  }, [props.match.params.id]);
+    dispatch(fetchQuizById(props.match.params.id));
+    dispatch(retryQuiz());
+  }, [dispatch, props.match.params.id]);
 
   return (
     <div className='quiz'>
@@ -79,7 +36,7 @@ function Quiz(props) {
           Ответьте на вопросы
         </h1>
         {
-          isLoading
+          isLoading || !quiz
             ? <Loader />
             : isQuizFinished
                 ? <FinishedQuiz
@@ -90,7 +47,7 @@ function Quiz(props) {
                 : <ActiveQuiz 
                     answers={quiz[activeQuestion].answers}
                     question={quiz[activeQuestion].question}
-                    onAnswerClick={handleAnswerClick}
+                    onAnswerClick={(answerId) => dispatch(quizAnswerClick(answerId))}
                     quizLength={quiz.length}
                     answerNumber={activeQuestion + 1}
                     answerState={answerState}
