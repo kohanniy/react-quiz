@@ -5,7 +5,8 @@ import Drawer from '../Navigation/Drawer/Drawer';
 
 function Layout (props) {
   const {
-    children
+    children,
+    isAuthenticated,
   } = props;
 
   const [ isMenuOpen, setIsMenuOpen ] = React.useState(false);
@@ -23,6 +24,7 @@ function Layout (props) {
       <Drawer
         isOpen={isMenuOpen}
         closeMenu={closeMenu}
+        isAuthenticated={isAuthenticated}
       />
       <MenuToggle
         onToggleClick={handleToggleMenuClick}

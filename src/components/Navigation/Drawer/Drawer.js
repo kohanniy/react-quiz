@@ -1,24 +1,39 @@
 import { NavLink } from 'react-router-dom';
 import './Drawer.css';
 import Backdrop from '../../UI/Backdrop/Backdrop';
-import { InternalPagesLinks } from '../../../utils/constants';
+import { 
+  list,
+  auth,
+  quizCreator,
+  logout,
+} from '../../../utils/constants';
 
 function Drawer(props) {
   const {
     isOpen,
     closeMenu,
+    isAuthenticated,
   } = props;
 
-  let drawerClasses = 'drawer'
+  let drawerClasses = 'drawer';
 
-  if (!isOpen) drawerClasses += ' drawer_close'
+  let links = [list];
+
+  if (!isOpen) drawerClasses += ' drawer_close';
+
+  if (isAuthenticated) {
+    links.push(quizCreator);
+    links.push(logout);
+  } else {
+    links.push(auth);
+  }
 
   return (
     <>
       <nav className={drawerClasses}>
         <ul className='drawer__list'>
           {
-            InternalPagesLinks.map((link, index) => (
+            links.map((link, index) => (
               <li 
                 key={index}
                 className='drawer__item'
