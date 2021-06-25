@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import './QuizCreator.css';
 import Button from '../UI/Button/Button';
 import Input from '../UI/Input/Input';
@@ -9,13 +10,18 @@ import {
   validate,
   validateForm,
 } from '../../form/formFramework';
-import axios from '../../axios/axios-quiz';
+import {
+  createQuizQuestion,
+  finishCreateQuiz,
+} from '../../store/actions/quizCreator';
 
 function QuizCreator(props) {
-  const [ quiz, setQuiz ] = React.useState([]);
   const [ inputs, setInputs ] = React.useState(createFormControlsForQuiz());
   const [ rightAnswerId, setRightAnswerId ] = React.useState(1);
   const [ isFormValid, setIsFormValid ] = React.useState(false);
+
+  const quiz = useSelector((state) => state.quizCreator.quiz);
+  const dispatch = useDispatch();
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -23,7 +29,7 @@ function QuizCreator(props) {
 
   function handleAddQuestionBtnClick(evt) {
     evt.preventDefault();
-    const quizQuestions = quiz.concat();
+
     const index = quiz.length + 1;
     const { question, option1, option2, option3, option4} = inputs;
 
@@ -37,28 +43,23 @@ function QuizCreator(props) {
         {text: option3.value, id: option3.id},
         {text: option4.value, id: option4.id},
       ]
-    }
+    };
 
-    quizQuestions.push(questionItem);
+    dispatch(createQuizQuestion(questionItem));
 
-    setQuiz(quizQuestions);
     setIsFormValid(false);
     setRightAnswerId(1);
     setInputs(createFormControlsForQuiz());
   }
 
-  async function handleCreateQuizBtnClick(evt) {
+  function handleCreateQuizBtnClick(evt) {
     evt.preventDefault();
 
-    try {
-      await axios.post('/quizes.json', quiz);
-      setQuiz([]);
-      setIsFormValid(false);
-      setRightAnswerId(1);
-      setInputs(createFormControlsForQuiz());
-    } catch (err) {
-      console.log(err);
-    }    
+    dispatch(finishCreateQuiz());
+
+    setIsFormValid(false);
+    setRightAnswerId(1);
+    setInputs(createFormControlsForQuiz());   
   }
 
   function handleInputChange(evt, inputName) {
