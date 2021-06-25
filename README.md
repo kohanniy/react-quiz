@@ -1,8 +1,8 @@
-# Приложение по созданию и прохождению квизов [Quiz](https://react-quiz-2ab0a.firebaseapp.com/)
+# Приложение по созданию и прохождению квизов [Quiz](https://react-quiz-2ab0a.web.app/)
 
 Интерактивная страница, где пользователи могут проходить разные квизы, а после регистрации и входа - добавлять свои. Реализован функционал регистрации, авторизации, добавления и прохождения квизов.
 
-* Адрес сайта - [https://react-quiz-2ab0a.firebaseapp.com/](https://react-quiz-2ab0a.firebaseapp.com/)
+* Адрес сайта - [https://react-quiz-2ab0a.web.app/](https://react-quiz-2ab0a.web.app/)
 
 ## Фронтенд
 
